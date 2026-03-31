@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Standoff 2 | ADMIN PANEL [CHEAT LOADER]</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            user-select: none;
+        }
+
+        body {
+            min-height: 100vh;
+            background: radial-gradient(circle at 20% 30%, #0a0f1e, #03060c);
+            font-family: 'Segoe UI', 'Courier New', 'Fira Code', monospace;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        /* Хакерский контейнер */
+        .panel {
+            max-width: 900px;
+            width: 100%;
+            background: rgba(8, 12, 25, 0.85);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(0, 255, 255, 0.4);
+            border-radius: 32px;
+            padding: 24px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.6), 0 0 20px rgba(0,255,255,0.2);
+            transition: all 0.3s;
+        }
+
+        /* Заголовок */
+        .header {
+            border-bottom: 2px solid #0ff;
+            padding-bottom: 15px;
+            margin-bottom: 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            flex-wrap: wrap;
+        }
+
+        h1 {
+            font-size: 1.7rem;
+            letter-spacing: 3px;
+            background: linear-gradient(135deg, #0ff, #f0f);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 5px rgba(0,255,255,0.5);
+        }
+
+        .badge {
+            font-size: 0.75rem;
+            background: #000000aa;
+            padding: 6px 12px;
+            border-radius: 40px;
+            border: 1px solid #0ff;
+            color: #0ff;
+            font-family: monospace;
+        }
+
+        /* Выбор чита */
+        .select-section {
+            background: #050a15;
+            border-radius: 24px;
+            padding: 20px;
+            margin-bottom: 30px;
+            border: 1px solid #1f3a5f;
+        }
+
+        .section-title {
+            color: #8ab3ff;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+        }
+
+        .cheat-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 12px;
+            margin-top: 10px;
+        }
+
+        .cheat-card {
+            background: #0b1122;
+            border: 1px solid #2a3f6e;
+            border-radius: 20px;
+            padding: 15px;
+            cursor: pointer;
+            transition: 0.2s;
+            text-align: center;
+        }
+
+        .cheat-card:hover {
+            border-color: #0ff;
+            background: #0f172f;
+            transform: scale(0.98);
+            box-shadow: 0 0 12px rgba(0,255,255,0.3);
+        }
+
+        .cheat-card.selected {
+            border-color: #0ff;
+            background: #0a1430;
+            box-shadow: 0 0 15px cyan;
+        }
+
+        .cheat-name {
+            color: #eee;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        .cheat-desc {
+            font-size: 0.7rem;
+            color: #6c8fc7;
+            margin-top: 6px;
+        }
+
+        /* Таймер */
+        .timer-area {
+            background: #01010199;
+            border-radius: 60px;
+            padding: 15px 20px;
+            margin: 25px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            border-left: 6px solid #0ff;
+        }
+
+        .timer-clock {
+            font-family: 'Courier New', monospace;
+            font-size: 2.2rem;
+            font-weight: bold;
+            background: #000;
+            padding: 8px 20px;
+            border-radius: 60px;
+            color: #0ff;
+            letter-spacing: 4px;
+            text-shadow: 0 0 5px cyan;
+        }
+
+        .timer-status {
+            color: #ffaa44;
+            font-weight: bold;
+        }
+
+        .btn-load {
+            background: linear-gradient(90deg, #0a2f44, #001122);
+            border: 1px solid #0ff;
+            color: cyan;
+            padding: 10px 28px;
+            border-radius: 40px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s;
+            font-size: 1rem;
+        }
+
+        .btn-load:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            filter: grayscale(0.2);
+        }
+
+        /* Функции чита */
+        .features {
+            margin-top: 25px;
+            background: #03070faa;
+            border-radius: 24px;
+            padding: 15px;
+        }
+
+        .feature-list {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-top: 12px;
+        }
+
+        .feature-item {
+            background: #0e1625;
+            padding: 12px;
+            border-radius: 18px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid #2e3b4e;
+        }
+
+        .feature-name {
+            color: #bdd4ff;
+        }
+
+        .feature-toggle {
+            width: 44px;
+            height: 24px;
+            background: #2c3e55;
+            border-radius: 40px;
+            position: relative;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .feature-toggle.active {
+            background: #0ff;
+            box-shadow: 0 0 8px cyan;
+        }
+
+        .feature-toggle::after {
+            content: "";
+            width: 20px;
+            height: 20px;
+            background: white;
+            border-radius: 50%;
+            position: absolute;
+            top: 2px;
+            left: 3px;
+            transition: 0.2s;
+        }
+
+        .feature-toggle.active::after {
+            left: 22px;
+            background: #000;
+        }
+
+        .lock-warning {
+            text-align: center;
+            color: #ff6666;
+            margin-top: 15px;
+            font-size: 0.8rem;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 25px;
+            font-size: 0.7rem;
+            color: #2e5f7a;
+        }
+
+        @media (max-width: 600px) {
+            .feature-list {
+                grid-template-columns: 1fr;
+            }
+            .timer-clock {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="panel" id="app">
+    <div class="header">
+        <h1>⚡ ADMIN PANEL [SO2]</h1>
+        <div class="badge">🔒 SECURE LOADER v3.4 | OFFLINE</div>
+    </div>
+
+    <div class="select-section">
+        <div class="section-title">🎯 ВЫБЕРИТЕ ВЕРСИЮ ЧИТА</div>
+        <div class="cheat-grid" id="cheatGrid">
+            <!-- динамические карточки через js -->
+        </div>
+    </div>
+
+    <div class="timer-area">
+        <div>
+            <div class="timer-status" id="timerStatus">⚡ ОЖИДАНИЕ АКТИВАЦИИ</div>
+            <div class="timer-clock" id="timerDisplay">00:00:00</div>
+        </div>
+        <button class="btn-load" id="loadBtn">🚀 ЗАГРУЗИТЬ ЧИТ</button>
+    </div>
+
+    <div class="features" id="featuresPanel">
+        <div class="section-title">🎮 ДОСТУПНЫЕ ФУНКЦИИ (Активируются после загрузки)</div>
+        <div class="feature-list" id="featureList">
+            <!-- функции будут здесь -->
+        </div>
+        <div class="lock-warning" id="lockMsg">🔒 Функции заблокированы. Выберите чит и нажмите «ЗАГРУЗИТЬ», ожидайте 30 минут.</div>
+    </div>
+    <footer>STANDOFF 2 INTERNAL | PRIVATE BUILD | FULL FEATURES</footer>
+</div>
+
+<script>
+    // ==================== ВСЕ ФУНКЦИИ ЧИТА ДЛЯ СТАНДОФФ 2 ====================
+    const allFeatures = [
+        { id: "aimbot", name: "🎯 Aimbot (магнит на голову)", default: false },
+        { id: "esp", name: "👁️ ESP / Wallhack (игроки/оружие)", default: false },
+        { id: "radar", name: "📡 Radar Hack (вся карта)", default: false },
+        { id: "norecoil", name: "🔫 No Recoil / Spread", default: false },
+        { id: "speed", name: "⚡ SpeedHack (x1.5)", default: false },
+        { id: "jump", name: "🦘 MegaJump / HighJump", default: false },
+        { id: "antiflash", name: "✨ AntiFlash / NoFlash", default: false },
+        { id: "skin_changer", name: "🎨 Skin Changer (все скины)", default: false },
+        { id: "fly", name: "🕊️ Fly / Noclip", default: false },
+        { id: "autofire", name: "🤖 AutoFire / TriggerBot", default: false },
+        { id: "magic_bullet", name: "💀 Magic Bullet (сквозь стены)", default: false },
+        { id: "infinite_ammo", name: "♾️ Infinite Ammo / No Reload", default: false }
+    ];
+
+    // Список доступных читов (пресеты)
+    const cheatsList = [
+        { id: "premium_legit", name: "🔰 PREMIUM LEGIT", desc: "Аимбот + ESP + Радар + NoRecoil" },
+        { id: "rage_ultra", name: "💀 RAGE ULTRA", desc: "Магическая пуля + Флай + Спидхак + Все функции" },
+        { id: "visual_pro", name: "👑 VISUAL PRO", desc: "Wallhack, скинчейнджер, антифлеш" },
+        { id: "full_package", name: "🔥 FULL PACKAGE", desc: "ВСЕ функции чита (без банов)" }
+    ];
+
+    // Состояние приложения
+    let selectedCheat = null;
+    let isLoaded = false;          // загружен ли чит?
+    let timerActive = false;
+    let timerInterval = null;
+    let remainingSeconds = 0;      // 30 минут = 1800 секунд
+    let activeFeatures = {};
+
+    // Инициализация активных функций (все false)
+    function initFeaturesState() {
+        allFeatures.forEach(f => { activeFeatures[f.id] = false; });
+    }
+
+    // Рендер карточек читов
+    function renderCheatCards() {
+        const container = document.getElementById('cheatGrid');
+        container.innerHTML = '';
+        cheatsList.forEach(cheat => {
+            const card = document.createElement('div');
+            card.className = `cheat-card ${selectedCheat?.id === cheat.id ? 'selected' : ''}`;
+            card.innerHTML = `
+                <div class="cheat-name">${cheat.name}</div>
+                <div class="cheat-desc">${cheat.desc}</div>
+            `;
+            card.onclick = () => {
+                if (timerActive) return;
+                selectedCheat = cheat;
+                renderCheatCards();
+            };
+            container.appendChild(card);
+        });
+    }
+
+    // Рендер панели функций (переключатели)
+    function renderFeatures() {
+        const container = document.getElementById('featureList');
+        container.innerHTML = '';
+        allFeatures.forEach(feat => {
+            const isEnabled = activeFeatures[feat.id];
+            const div = document.createElement('div');
+            div.className = 'feature-item';
+            div.innerHTML = `
+                <span class="feature-name">${feat.name}</span>
+                <div class="feature-toggle ${isEnabled ? 'active' : ''}" data-feature="${feat.id}"></div>
+            `;
+            const toggleDiv = div.querySelector('.feature-toggle');
+            toggleDiv.addEventListener('click', (e) => {
+                e.stopPropagation();
+                if (!isLoaded) return;
+                // Переключаем
+                activeFeatures[feat.id] = !activeFeatures[feat.id];
+                renderFeatures();
+            });
+            container.appendChild(div);
+        });
+
+        const lockMsg = document.getElementById('lockMsg');
+        if (isLoaded) {
+            lockMsg.innerHTML = '✅ ЧИТ АКТИВИРОВАН! Все переключатели работают.';
+            lockMsg.style.color = '#88ff88';
+        } else {
+            lockMsg.innerHTML = '🔒 Функции заблокированы. Выберите чит и нажмите «ЗАГРУЗИТЬ», ожидайте 30 минут.';
+            lockMsg.style.color = '#ff6666';
+        }
+    }
+
+    // Обновление отображения таймера
+    function updateTimerDisplay() {
+        const hours = Math.floor(remainingSeconds / 3600);
+        const minutes = Math.floor((remainingSeconds % 3600) / 60);
+        const secs = remainingSeconds % 60;
+        document.getElementById('timerDisplay').innerText = 
+            `${String(hours).padStart(2,'0')}:${String(minutes).padStart(2,'0')}:${String(secs).padStart(2,'0')}`;
+        
+        if (remainingSeconds <= 0 && timerActive) {
+            // таймер завершен, активируем чит
+            if (timerActive === true) {
+                clearInterval(timerInterval);
+                timerActive = false;
+                isLoaded = true;
+                document.getElementById('timerStatus').innerHTML = '✅ ЧИТ УСПЕШНО ЗАГРУЖЕН!';
+                document.getElementById('timerStatus').style.color = '#0f0';
+                document.getElementById('loadBtn').disabled = false;
+                // Применяем функции в зависимости от выбранного чита
+                applyCheatFeatures();
+                renderFeatures();
+            }
+        }
+    }
+
+    // Применяет функции в зависимости от выбранного чита
+    function applyCheatFeatures() {
+        if (!selectedCheat) return;
+        // сбросим все активные функции
+        allFeatures.forEach(f => { activeFeatures[f.id] = false; });
+        
+        if (selectedCheat.id === 'premium_legit') {
+            activeFeatures['aimbot'] = true;
+            activeFeatures['esp'] = true;
+            activeFeatures['radar'] = true;
+            activeFeatures['norecoil'] = true;
+        } 
+        else if (selectedCheat.id === 'rage_ultra') {
+            activeFeatures['magic_bullet'] = true;
+            activeFeatures['fly'] = true;
+            activeFeatures['speed'] = true;
+            activeFeatures['aimbot'] = true;
+            activeFeatures['infinite_ammo'] = true;
+            activeFeatures['autofire'] = true;
+            activeFeatures['esp'] = true;
+        }
+        else if (selectedCheat.id === 'visual_pro') {
+            activeFeatures['esp'] = true;
+            activeFeatures['skin_changer'] = true;
+            activeFeatures['antiflash'] = true;
+            activeFeatures['radar'] = true;
+        }
+        else if (selectedCheat.id === 'full_package') {
+            // все функции true
+            allFeatures.forEach(f => { activeFeatures[f.id] = true; });
+        }
+    }
+
+    // Запуск таймера на 30 минут
+    function startLoadTimer() {
+        if (timerActive) return;
+        if (!selectedCheat) {
+            alert('Сначала выберите версию чита!');
+            return;
+        }
+        
+        // Блокируем выбор чита
+        timerActive = true;
+        remainingSeconds = 30 * 60; // 30 минут
+        updateTimerDisplay();
+        document.getElementById('timerStatus').innerHTML = '⏳ ИНЪЕКЦИЯ DLL... ОСТАЛОСЬ:';
+        document.getElementById('timerStatus').style.color = '#ffaa44';
+        document.getElementById('loadBtn').disabled = true;
+        
+        if (timerInterval) clearInterval(timerInterval);
+        timerInterval = setInterval(() => {
+            if (remainingSeconds > 0) {
+                remainingSeconds--;
+                updateTimerDisplay();
+            } else {
+                // завершение
+                clearInterval(timerInterval);
+                timerActive = false;
+                isLoaded = true;
+                document.getElementById('timerStatus').innerHTML = '✅ ЧИТ УСПЕШНО ЗАГРУЖЕН!';
+                document.getElementById('timerStatus').style.color = '#0f0';
+                document.getElementById('loadBtn').disabled = false;
+                applyCheatFeatures();
+                renderFeatures();
+            }
+        }, 1000);
+    }
+
+    // Сброс (если нужно перезагрузить)
+    function resetLoader() {
+        if (timerInterval) clearInterval(timerInterval);
+        timerActive = false;
+        isLoaded = false;
+        selectedCheat = null;
+        initFeaturesState();
+        renderCheatCards();
+        renderFeatures();
+        document.getElementById('timerDisplay').innerText = '00:00:00';
+        document.getElementById('timerStatus').innerHTML = '⚡ ОЖИДАНИЕ АКТИВАЦИИ';
+        document.getElementById('timerStatus').style.color = '#ffaa44';
+        document.getElementById('loadBtn').disabled = false;
+    }
+
+    // Инициализация всей админки
+    function init() {
+        initFeaturesState();
+        renderCheatCards();
+        renderFeatures();
+        document.getElementById('loadBtn').addEventListener('click', startLoadTimer);
+        // При загрузке страницы можно добавить секретный сброс (для отладки, но пусть останется)
+        window.resetPanel = resetLoader;
+    }
+
+    init();
+</script>
+</body>
+          </html>
